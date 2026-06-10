@@ -1,0 +1,22 @@
+name: Alerta de Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: Enviar notificacion a ntfy.sh
+        run: |
+          curl -X POST https://ntfy.sh/devops-itla \
+            -H "Title: Nuevo push en main" \
+            -H "Priority: default" \
+            -H "Tags: white_check_mark,github" \
+            -d "Push por ${{ github.actor }} en el repo ${{ github.repository }}"
